@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 def create_audit_record(
@@ -11,7 +11,7 @@ def create_audit_record(
     """
 
     return {
-        "timestamp": datetime.now().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
         "repair": repair_result.get("repair"),
         "approved": repair_result.get("approved", False),
         "changed": repair_result.get("changed", False),
@@ -21,5 +21,8 @@ def create_audit_record(
             "removed_count",
             0,
         ),
+        "before": repair_result.get("before"),
+        "after": repair_result.get("after"),
+        "validation": None,
         "message": repair_result.get("message"),
     }

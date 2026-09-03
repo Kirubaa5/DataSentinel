@@ -6,6 +6,11 @@ DataSentinel is an industry-agnostic data quality and reliability platform desig
 
 > 🚧 **Status: Under Development**
 
+The deterministic backend and FastAPI layer are available for local testing.
+See [docs/architecture.md](docs/architecture.md) and [docs/api.md](docs/api.md)
+for the implemented workflow. PostgreSQL, RAG, LLM, and frontend work are
+deliberately deferred to later phases.
+
 ---
 
 ## 🎯 Project Goal

@@ -2,27 +2,17 @@ from pathlib import Path
 
 import pandas as pd
 
-
-SUPPORTED_EXTENSIONS = {".csv", ".xlsx", ".xls"}
+from app.ingestion.validators import validate_file_path
 
 
 def load_dataset(file_path: str | Path) -> pd.DataFrame:
-    """
-    Load a CSV or Excel dataset into a pandas DataFrame.
-    """
-
-    path = Path(file_path)
-
-    if not path.exists():
-        raise FileNotFoundError(f"Dataset not found: {path}")
-
-    if path.suffix.lower() not in SUPPORTED_EXTENSIONS:
-        raise ValueError(
-            f"Unsupported file type: {path.suffix}. "
-            f"Supported types: {SUPPORTED_EXTENSIONS}"
-        )
-
+    """Load a CSV or Excel dataset and reject empty inputs."""
+    path = validate_file_path(file_path)
     if path.suffix.lower() == ".csv":
-        return pd.read_csv(path)
+        dataframe = pd.read_csv(path)
+    else:
+        dataframe = pd.read_excel(path)
 
-    return pd.read_excel(path)
+    if dataframe.empty or dataframe.dropna(how="all").empty:
+        raise ValueError(f"Dataset contains no rows: {path}")
+    return dataframe

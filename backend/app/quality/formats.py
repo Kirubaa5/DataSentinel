@@ -29,9 +29,12 @@ def validate_column_format(
             "severity": "none",
         }
 
-    valid_mask = series.apply(
-        lambda value: bool(re.fullmatch(pattern, value))
-    )
+    try:
+        valid_mask = series.apply(
+            lambda value: bool(re.fullmatch(pattern, value))
+        )
+    except re.error as exc:
+        raise ValueError(f"Invalid regex pattern for {column}: {pattern}") from exc
 
     invalid_count = int((~valid_mask).sum())
 
