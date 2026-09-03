@@ -6,10 +6,12 @@ DataSentinel is an industry-agnostic data quality and reliability platform desig
 
 > 🚧 **Status: Under Development**
 
-The deterministic backend and FastAPI layer are available for local testing.
+The deterministic backend, FastAPI layer, and PostgreSQL persistence are available
+for local testing.
 See [docs/architecture.md](docs/architecture.md) and [docs/api.md](docs/api.md)
 for the implemented workflow. PostgreSQL, RAG, LLM, and frontend work are
-deliberately deferred to later phases.
+deliberately deferred to later phases. Set `DATABASE_URL` in `backend/.env` before
+starting the API.
 
 ---
 

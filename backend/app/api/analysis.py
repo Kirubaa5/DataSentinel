@@ -26,7 +26,7 @@ def run_analysis(dataset_id: str, request: AnalysisRequest | None = None) -> dic
 @router.get("")
 def get_analysis(dataset_id: str) -> dict:
     try:
-        result = pipeline_service.get(dataset_id).analysis
+        result = pipeline_service.get_analysis(dataset_id)
     except KeyError as exc:
         raise HTTPException(status_code=404, detail=str(exc)) from exc
     if result is None:

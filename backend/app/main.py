@@ -1,3 +1,5 @@
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
 
 from app.api.analysis import router as analysis_router
@@ -5,9 +7,18 @@ from app.api.datasets import router as datasets_router
 from app.api.findings import router as findings_router
 from app.api.repairs import router as repairs_router
 from app.core.logging import configure_logging
+from app.database.connection import create_tables
 
 configure_logging()
-app = FastAPI(title="DataSentinel", version="1.0.0")
+
+
+@asynccontextmanager
+async def lifespan(_app: FastAPI):
+    create_tables()
+    yield
+
+
+app = FastAPI(title="DataSentinel", version="1.0.0", lifespan=lifespan)
 
 
 @app.get("/health", tags=["health"])

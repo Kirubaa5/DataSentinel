@@ -29,5 +29,11 @@ uvicorn app.main:app --app-dir backend --reload
 5. Submit explicit approval to `POST /api/datasets/{dataset_id}/repairs/duplicates`.
 6. Validate with `POST /api/datasets/{dataset_id}/repairs/validate` and inspect audit.
 
-The in-memory service is intentionally replaceable by a repository later; it is
-not a production persistence layer.
+PostgreSQL now stores dataset metadata, profiles, analyses, findings, scores,
+repairs, and audit logs through `DatabaseRepository`. The dataframe itself remains
+in the file-processing workflow and is never stored in PostgreSQL. Tables are
+bootstrapped with SQLAlchemy `Base.metadata.create_all()` during API startup; a
+versioned Alembic migration can replace this bootstrap when deployment environments
+need schema history. After a restart, persisted metadata and analysis results are
+available, but repair or re-analysis requires the source dataframe to be loaded
+again because raw data is intentionally not persisted.
