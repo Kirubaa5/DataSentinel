@@ -49,7 +49,8 @@ def validate_data_types(df: pd.DataFrame) -> list[dict]:
                 "unexpected_types": list(unexpected_types),
                 "unexpected_count": unexpected_count,
                 "unexpected_percentage": round(
-                    unexpected_percentage, 4
+                    unexpected_percentage,
+                    4,
                 ),
                 "severity": severity,
             }
